@@ -8,7 +8,7 @@ from segment_anything import sam_model_registry, SamAutomaticMaskGenerator
 # CONFIG
 # -------------------
 input_folder = "documents/input_images"
-sam_checkpoint = "sam_vit_h_4b8939.pth"
+sam_checkpoint = "documents/sam_vit_h_4b8939.pth"
 model_type = "vit_h"
 N = 5  # number of top largest masks to save
 output_folder = "documents/segments"

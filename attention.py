@@ -9,7 +9,7 @@ from segment_anything.utils.transforms import ResizeLongestSide
 # CONFIG
 # -------------------
 input_folder = "documents/input_images"
-sam_checkpoint = "sam_vit_h_4b8939.pth"
+sam_checkpoint = "documents/sam_vit_h_4b8939.pth"
 model_type = "vit_h"
 N = 5
 output_folder = "documents/segments"
