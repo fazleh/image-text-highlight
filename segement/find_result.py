@@ -3,44 +3,36 @@ from collections import Counter, defaultdict
 import os
 
 def find_best_similarities(input_path: str, output_path: str = None):
-    """
-    Reads a JSON file, finds the highest similarity paragraph for each image,
-    and optionally saves the summarized results to another JSON file.
-
-    Args:
-        input_path (str): Path to the input JSON file.
-        output_path (str, optional): Path to save summarized results. Default is None.
-    Returns:
-        list: A list of dictionaries with the best similarity info per image.
-    """
-
-    # Step 1: Read JSON file
     with open(input_path, 'r', encoding='utf-8') as f:
         data = json.load(f)
 
-    # Step 2: Extract best similarity for each image
     results = []
     for entry in data:
         main_image = entry["main_image"]
         for img in entry["Images"]:
-            image_name = img["Image"]
-            best_paragraph = max(img["Ranked Paragraphs"], key=lambda p: p["Similarity"])
+            ranked_paragraphs = img.get("Ranked Paragraphs", [])
+            if not ranked_paragraphs:
+                # Skip images with no paragraphs
+                print(f"⚠️ No ranked paragraphs for image: {img.get('Image')}")
+                continue
+
+            best_paragraph = max(ranked_paragraphs, key=lambda p: p["Similarity"])
             results.append({
                 "main_image": main_image,
-                "image": image_name,
+                "image": img.get("Image"),
                 "best_page": best_paragraph["Page"],
                 "best_paragraph": best_paragraph["Paragraph"],
                 "best_similarity": best_paragraph["Similarity"],
                 "original_text": best_paragraph["Original Text"]
             })
 
-    # Step 3: Optionally save results to a file
     if output_path:
         with open(output_path, 'w', encoding='utf-8') as f:
             json.dump(results, f, indent=2, ensure_ascii=False)
         print(f"✅ Best similarities saved to '{output_path}'")
 
     return results
+
 
 
 def find_most_frequent_page_paragraph(input_path: str, output_path: str = None):
