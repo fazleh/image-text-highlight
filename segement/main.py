@@ -285,7 +285,7 @@ if __name__ == "__main__":
                 process_folder(
                     input_folder=output_dir,
                     output_dir=segment_dir,
-                    checkpoint_path=dir + "models/sam_vit_h_4b8939.pth",
+                    checkpoint_path=dir + "sam_vit_h_4b8939.pth",
                     model_type="vit_h"
                 )
             else:
